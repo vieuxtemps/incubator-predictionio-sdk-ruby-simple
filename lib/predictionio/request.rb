@@ -1,8 +1,5 @@
 module PredictionIO
-  # This class contains the URI path and query parameters that is consumed by
-  # PredictionIO::Connection for asynchronous HTTP requests.
   class Request
-
     # The path portion of the request URI.
     attr_reader :path
 

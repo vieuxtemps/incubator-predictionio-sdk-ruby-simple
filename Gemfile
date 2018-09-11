@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'faraday', '~> 0.10.0'
+gem 'excon'
 
 group :test do
   gem 'rspec', '~> 3.5.0'

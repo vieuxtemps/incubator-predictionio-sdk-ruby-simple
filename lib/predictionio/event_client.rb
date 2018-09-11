@@ -8,80 +8,10 @@
 require 'date'
 
 module PredictionIO
-  # This class contains methods that interface with the PredictionIO Event
-  # Server via the PredictionIO Event API using REST requests.
-  #
-  # Many REST request methods support optional arguments. They can be supplied
-  # to these methods as Hash'es. For a complete reference, please visit
-  # http://prediction.io.
-  #
-  # == High-performance Asynchronous Backend
-  #
-  # All REST request methods come in both synchronous and asynchronous flavors.
-  # Both flavors accept the same set of arguments. In addition, all synchronous
-  # request methods can instead accept a PredictionIO::AsyncResponse object
-  # generated from asynchronous request methods as its first argument. In this
-  # case, the method will block until a response is received from it.
-  #
-  # Any network reconnection and request retry is automatically handled in the
-  # background. Exceptions will be thrown after a request times out to avoid
-  # infinite blocking.
-  #
-  # == Installation
-  # The easiest way is to use RubyGems:
-  #     gem install predictionio
-  #
-  # == Synopsis
-  # In most cases, using synchronous methods. If you have a special performance
-  # requirement, you may want to take a look at asynchronous methods.
-  #
-  # === Instantiate an EventClient
-  #     # Include the PredictionIO SDK
-  #     require 'predictionio'
-  #
-  #     client = PredictionIO::EventClient.new(<access_key>)
-  #
-  # === Import a User Record from Your App (with asynchronous/non-blocking
-  #     requests)
-  #
-  #     #
-  #     # (your user registration logic)
-  #     #
-  #
-  #     uid = get_user_from_your_db()
-  #
-  #     # PredictionIO call to create user
-  #     response = client.aset_user(uid)
-  #
-  #     #
-  #     # (other work to do for the rest of the page)
-  #     #
-  #
-  #     begin
-  #       # PredictionIO call to retrieve results from an asynchronous response
-  #       result = client.set_user(response)
-  #     rescue PredictionIO::EventClient::NotCreatedError => e
-  #       log_and_email_error(...)
-  #     end
-  #
-  # === Import a User Action (Rate) from Your App (with synchronous/blocking
-  #     requests)
-  #     # PredictionIO call to record the view action
-  #     begin
-  #       result = client.record_user_action_on_item('rate', 'foouser',
-  #                                                  'baritem',
-  #                                                  'rating' => 4)
-  #     rescue PredictionIO::EventClient::NotCreatedError => e
-  #       ...
-  #     end
   class EventClient
     # Raised when an event is not created after a synchronous API call.
     class NotCreatedError < StandardError; end
 
-    # Create a new PredictionIO Event Client with defaults:
-    # - 1 concurrent HTTP(S) connections (threads)
-    # - API entry point at http://localhost:7070 (apiurl)
-    # - a 60-second timeout for each HTTP(S) connection (thread_timeout)
     def initialize(access_key, apiurl = 'http://localhost:7070')
       @access_key = access_key
       @http = PredictionIO::Connection.new(URI(apiurl)) do |faraday|

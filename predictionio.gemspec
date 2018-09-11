@@ -2,7 +2,7 @@ $:.push File.expand_path('../lib', __FILE__)
 require 'predictionio/version'
 
 Gem::Specification.new do |s|
-  s.name = 'predictionio-simple'
+  s.name = 'predictionio'
   s.summary = 'PredictionIO Ruby SDK Simplified'
   s.description = <<-EOF
 PredictionIO is an open source machine learning server for developers and data

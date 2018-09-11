@@ -1,15 +1,12 @@
 require 'faraday'
 module PredictionIO
-
   # This class handles Connections
   class Connection
-
-
     # Creates a connection to the given URI.
     def initialize(uri)
       @connection = Faraday.new(:url => uri) do |faraday|
-        faraday.request  :url_encoded             # form-encode POST params
-        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+        faraday.request :url_encoded
+        faraday.adapter :excon
         yield faraday if block_given?
       end
       @connection.headers['Content-Type'] = 'application/json; charset=utf-8'
